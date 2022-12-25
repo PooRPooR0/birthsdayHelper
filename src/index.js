@@ -8,7 +8,7 @@ import "./assets/styles/main.scss"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <DefaultLayout pageTitle={"Home"}>
+    <DefaultLayout pageTitle="Генератор поздравлений">
         <HomePage />
     </DefaultLayout>
   </React.StrictMode>

@@ -1,15 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useFormik} from "formik";
-import {Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField} from "@mui/material";
+import {Box, Button, TextField} from "@mui/material";
+import axios from "axios";
+import {Oval} from "react-loader-spinner";
 
 const SettingsForm = ({setResult}) => {
+    const [isLoading, setIsLoading] = useState(false)
+    const generateCongrat = async (name) => {
+        const response = await axios.post("https://zeapi.yandex.net/lab/api/yalm/text3", {
+            "filter": 1,
+            "into": 0,
+            "query": `${name}, поздравляем с днем рождения!`
+        }, {
+            'Content-Type': 'application/json'
+        })
+
+        return response.data.query + response.data.text
+    }
+
     const formik = useFormik({
         initialValues: {
             name: "",
-            sex: "female",
         },
-        onSubmit: values => {
-            setResult(values.name)
+        onSubmit: async values => {
+            setIsLoading(true)
+            const congrat = await generateCongrat(values.name)
+            setResult(congrat)
+            setIsLoading(false)
         }
     })
 
@@ -20,23 +37,26 @@ const SettingsForm = ({setResult}) => {
                     required
                     id="name"
                     name="name"
-                    label="Name"
+                    label="Имя"
                     value={formik.values.name}
                     onChange={formik.handleChange}
                 />
-                <FormControl>
-                    <FormLabel id="sex">Gender</FormLabel>
-                    <RadioGroup
-                        aria-labelledby="sex"
-                        name="sex"
-                        value={formik.values.sex}
-                        onChange={formik.handleChange}
-                    >
-                        <FormControlLabel value="female" control={<Radio />} label="Female" />
-                        <FormControlLabel value="male" control={<Radio />} label="Male" />
-                    </RadioGroup>
-                </FormControl>
-                <Button type="submit" variant="contained">Submit</Button>
+                {!isLoading ?
+                    <Button type="submit" variant="contained">Сгенерировать</Button>
+                    : <Oval
+                        height={40}
+                        width={40}
+                        color="#1976d2"
+                        wrapperStyle={{justifyContent: "center"}}
+                        wrapperClass=""
+                        visible={true}
+                        ariaLabel='oval-loading'
+                        secondaryColor="#1976d2"
+                        strokeWidth={2}
+                        strokeWidthSecondary={5}
+                    />
+                }
+
             </Box>
         </form>
     );

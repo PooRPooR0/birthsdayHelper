@@ -13,7 +13,7 @@ const HomePage = () => {
     return (
         <Container sx={{display: "flex", gap: 2}}>
             <Box sx={{flex: 1}}>
-                <Typography variant="h6" >Your congratulation</Typography>
+                <Typography sx={{marginBottom: 1}} variant="h6" >Результат</Typography>
                 <TextField
                     id="result"
                     multiline
@@ -26,7 +26,7 @@ const HomePage = () => {
                 />
             </Box>
             <Box sx={{minWidth: 200}}>
-                <Typography variant="h6" >Settings</Typography>
+                <Typography sx={{marginBottom: 1}} variant="h6" >Настройки</Typography>
                 <SettingsForm setResult={setResult} />
             </Box>
         </Container>
