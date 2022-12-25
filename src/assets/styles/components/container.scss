@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  gap: 2em;
+  flex-direction: row;
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    gap: 1em
+  }
+}

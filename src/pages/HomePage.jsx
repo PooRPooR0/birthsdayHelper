@@ -7,11 +7,13 @@ import {
 } from "@mui/material";
 import SettingsForm from "../components/SettingsForm";
 
+import "../assets/styles/components/container.scss"
+
 const HomePage = () => {
     const [result, setResult] = useState('');
 
     return (
-        <Container sx={{display: "flex", gap: 2}}>
+        <Container className="container" sx={{display: "flex"}}>
             <Box sx={{flex: 1}}>
                 <Typography sx={{marginBottom: 1}} variant="h6" >Результат</Typography>
                 <TextField
