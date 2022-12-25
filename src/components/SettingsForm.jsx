@@ -1,22 +1,11 @@
 import React, {useState} from 'react';
 import {useFormik} from "formik";
 import {Box, Button, TextField} from "@mui/material";
-import axios from "axios";
-import {Oval} from "react-loader-spinner";
+import {generateCongratulation} from "../controllers/settingsFormController";
+import Loader from "./Loader";
 
 const SettingsForm = ({setResult}) => {
     const [isLoading, setIsLoading] = useState(false)
-    const generateCongrat = async (name) => {
-        const response = await axios.post("https://zeapi.yandex.net/lab/api/yalm/text3", {
-            "filter": 1,
-            "into": 0,
-            "query": `${name}, поздравляем с днем рождения!`
-        }, {
-            'Content-Type': 'application/json'
-        })
-
-        return response.data.query + response.data.text
-    }
 
     const formik = useFormik({
         initialValues: {
@@ -24,8 +13,8 @@ const SettingsForm = ({setResult}) => {
         },
         onSubmit: async values => {
             setIsLoading(true)
-            const congrat = await generateCongrat(values.name)
-            setResult(congrat)
+            const congratulation = await generateCongratulation(values.name)
+            setResult(congratulation)
             setIsLoading(false)
         }
     })
@@ -43,18 +32,7 @@ const SettingsForm = ({setResult}) => {
                 />
                 {!isLoading ?
                     <Button type="submit" variant="contained">Сгенерировать</Button>
-                    : <Oval
-                        height={40}
-                        width={40}
-                        color="#1976d2"
-                        wrapperStyle={{justifyContent: "center"}}
-                        wrapperClass=""
-                        visible={true}
-                        ariaLabel='oval-loading'
-                        secondaryColor="#1976d2"
-                        strokeWidth={2}
-                        strokeWidthSecondary={5}
-                    />
+                    : <Loader/>
                 }
 
             </Box>
